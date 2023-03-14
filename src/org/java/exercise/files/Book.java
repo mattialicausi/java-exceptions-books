@@ -11,33 +11,17 @@ public class Book {
     //costruttori
     public Book(String title, int nPages, String author, String publisher) {
 
-        try {
-            this.title = title;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una stringa...");
-        }
+        checkString(title, "Titolo ");
+        this.title = title;
 
-        try {
-            this.nPages = nPages;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire un numero...");
-        }
+        checkNumbers(nPages);
+        this.nPages = nPages;
 
-        try {
-            this.author = author;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una Stringa");
-        }
+        checkString(author, "Autore ");
+        this.author = author;
 
-        try {
-            this.publisher = publisher;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una Stringa");
-        }
+        checkString(publisher, "Editore ");
+        this.publisher = publisher;
     }
 
     //getter e setter
@@ -47,12 +31,8 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        try {
-            this.title = title;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una stringa");
-        }
+        checkString(title, "Titolo");
+        this.title = title;
     }
 
     public int getnPages() {
@@ -60,12 +40,10 @@ public class Book {
     }
 
     public void setnPages(int nPages) {
-        try {
-            this.nPages = nPages;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire un numero");
-        }
+        checkNumbers(nPages);
+        this.nPages = nPages;
+
+
     }
 
     public String getAuthor() {
@@ -73,12 +51,9 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        try {
-            this.author = author;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una stringa");
-        }
+        checkString(author, "Autore");
+        this.author = author;
+
     }
 
     public String getPublisher() {
@@ -86,16 +61,22 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
-        try {
-            this.publisher = publisher;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-            System.out.println("Devi inserire una stringa");
-        }
+        checkString(publisher, "Editore ");
+        this.publisher = publisher;
     }
 
     //metodi
+    private void checkString(String stringa, String subject) {
+        if(stringa ==null || stringa.length() == 0) {
+            throw new NullPointerException(subject + "non può essere vuoto");
+        }
+    }
 
+    private void checkNumbers(int number) {
+        if(number <= 0) {
+            throw new IllegalArgumentException("Le pagine non possono essere minori o uguali a 0");
+        }
+    }
     @Override
     public String toString() {
         return "title='" + title + '\'' + ", nPages=" + nPages + ", author='" + author + '\'' + ", publisher='" + publisher + '\'';
