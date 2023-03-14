@@ -1,9 +1,16 @@
 package org.java.exercise.files;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    private final static String FILE_PATH = ".library.txt";
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+
+
 
         //chiedo quanti libri vuole aggiungere
         System.out.print("Ciao, quanti libri vuoi aggiungere? ");
@@ -51,5 +58,47 @@ public class Main {
 
         scan.close();
 
+        //aggiungo la lista in un file
+
+        FileWriter myWriter = null;
+        try {
+            myWriter = new FileWriter(FILE_PATH, true);
+            for (Book book : list) {
+                myWriter.write(book.toString() + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Unable to create file");
+            System.out.println(e.getMessage());
+        } finally {
+            // da qui ci passo sempre e chiudo il FileWriter
+            if (myWriter != null) {
+                try {
+                    myWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        //leggo i file
+        Scanner fileScanner = null;
+        try {
+            fileScanner = new Scanner(new File(FILE_PATH));
+            while (fileScanner.hasNext()) {
+                String line = fileScanner.nextLine();
+                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (fileScanner != null) {
+                try {
+                    fileScanner.close();
+                } catch (IllegalStateException ise) {
+                    ise.printStackTrace();
+                }
+            }
+        }
     }
 }
